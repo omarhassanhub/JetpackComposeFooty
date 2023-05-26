@@ -4,7 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
@@ -12,18 +17,33 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.jetpackcomposefooty.ui.screens.*
+import com.example.jetpackcomposefooty.domain.model.Match
+import com.example.jetpackcomposefooty.ui.screens.BottomNavItem
+import com.example.jetpackcomposefooty.ui.screens.FollowingScreen
+import com.example.jetpackcomposefooty.ui.screens.LeaguesScreen
+import com.example.jetpackcomposefooty.ui.screens.MatchesScreen
+import com.example.jetpackcomposefooty.ui.screens.NewsScreen
+import com.example.jetpackcomposefooty.ui.screens.SettingsScreen
+import com.example.jetpackcomposefooty.ui.screens.TopBar
 import com.example.jetpackcomposefooty.ui.theme.JetpackComposeFootballTheme
+import com.example.jetpackcomposefooty.utils.ApiState
+import com.example.jetpackcomposefooty.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             JetpackComposeFootballTheme(darkTheme = true) {
                 // A surface container using the 'background' color from the theme
@@ -33,20 +53,22 @@ class MainActivity : ComponentActivity() {
 //                ) {
 //                    Greeting("Android")
 //                }
-                HomeScreenView()
+
+                val mainViewModel = hiltViewModel<MainViewModel>()
+                GETData(mainViewModel)
             }
         }
     }
 }
 
 @Composable
-private fun HomeScreenView() {
+private fun HomeScreenView(vm: Match) {
     val navigationController = rememberNavController()
     Scaffold(
         topBar = { TopBar() },
         bottomBar = { BottomNavigation(navigationController = navigationController) },
     ) { contentPadding ->
-        NavigationGraph(navigationController = navigationController, contentPadding)
+        NavigationGraph(navigationController = navigationController, contentPadding, vm)
     }
 }
 
@@ -94,10 +116,17 @@ fun BottomNavigation(navigationController: NavController) {
 }
 
 @Composable
-fun NavigationGraph(navigationController: NavHostController, contentPadding: PaddingValues) {
+fun NavigationGraph(
+    navigationController: NavHostController,
+    contentPadding: PaddingValues,
+    vm: Match
+) {
+
     NavHost(navigationController, startDestination = BottomNavItem.Matches.route) {
+
+
         composable(BottomNavItem.Matches.route) {
-            MatchesScreen()
+            MatchesScreen(vm)
         }
         composable(BottomNavItem.News.route) {
             NewsScreen()
@@ -124,5 +153,31 @@ fun Greeting(name: String) {
 fun DefaultPreview() {
     JetpackComposeFootballTheme {
         Greeting("Android")
+    }
+}
+
+@Composable
+fun GETData(mainViewModel: MainViewModel) {
+    when (val result = mainViewModel.response.value) {
+        is ApiState.Success -> {
+//            LazyColumn {
+//                items(result.data) { response ->
+//                    EachRow(post = response)
+//                }
+//            }
+            HomeScreenView(result.data)
+        }
+
+        is ApiState.Failure -> {
+            Text(text = "${result.msg}")
+        }
+
+        ApiState.Loading -> {
+            CircularProgressIndicator()
+        }
+
+        ApiState.Empty -> {
+
+        }
     }
 }

@@ -1,0 +1,124 @@
+{
+  "data": [
+    {
+      "id": 1664016,
+      "status": 3,
+      "status_name": "Finished",
+      "status_period": null,
+      "pitch": null,
+      "referee_id": "52",
+      "round_id": "165392",
+      "round_name": "Semifinals",
+      "season_id": "12880",
+      "season_name": "22/23",
+      "stage_id": "2",
+      "stage_name": "Playoffs",
+      "group_id": "6778",
+      "group_name": "A-League 22/23, Playoffs",
+      "aggregate_id": "1664014",
+      "winner_team_id": "1101",
+      "venue_id": "2741",
+      "leg": null,
+      "week": "20",
+      "deleted": "0",
+      "info": null,
+      "attendance": null,
+      "time": {
+        "datetime": "2023-05-19 09:45:00",
+        "date": "2023-05-19",
+        "time": "09:45:00",
+        "minute": 90,
+        "timestamp": 1684489500,
+        "timezone": "UTC"
+      },
+      "teams": {
+        "home": {
+          "id": 1101,
+          "name": "Melbourne City",
+          "short_code": "MBC",
+          "img": "https://cdn.soccersapi.com/images/soccer/teams/80/1101.png",
+          "form": "3-4-3",
+          "coach_id": "9212",
+          "kit_colors": {
+            "home_main_color": "#83c8e0",
+            "home_second_color": "#ffffff",
+            "home_number_color": "#ffffff",
+            "home_gk_main_color": "#f6a46c",
+            "home_gk_second_color": "#403942",
+            "home_gk_number_color": "#ffffff"
+          }
+        },
+        "away": {
+          "id": 1097,
+          "name": "Sydney",
+          "short_code": "SFC",
+          "img": "https://cdn.soccersapi.com/images/soccer/teams/80/1097.png",
+          "form": "4-2-3-1",
+          "coach_id": "1076",
+          "kit_colors": {
+            "away_main_color": "#070707",
+            "away_second_color": "#1f1e28",
+            "away_number_color": "#ffffff",
+            "away_gk_main_color": "#dfff00",
+            "away_gk_second_color": "#d6f312",
+            "away_gk_number_color": "#ffffff"
+          }
+        }
+      },
+      "league": {
+        "id": 974,
+        "name": "A-League",
+        "type": "A-League Playoffs",
+        "country_id": "14",
+        "country_name": "Australia",
+        "country_code": "au",
+        "country_flag": "https://cdn.soccersapi.com/images/countries/30/au.png"
+      },
+      "scores": {
+        "home_score": "4",
+        "away_score": "0",
+        "ht_score": "1-0",
+        "ft_score": "4-0",
+        "et_score": null,
+        "ps_score": null
+      },
+      "standings": {
+        "home_position": 1,
+        "away_position": 5
+      },
+      "assistants": {
+        "first_assistant_id": null,
+        "second_assistant_id": null,
+        "fourth_assistant_id": null
+      },
+      "coverage": {
+        "has_lineups": 1,
+        "has_tvs": 1,
+        "has_standings": 0
+      },
+      "weather_report": {
+        "desc": "overcast",
+        "temp": {
+          "celsius": 10,
+          "fahrenheit": 50
+        },
+        "wind": {
+          "kmph": 12,
+          "miles": 7.4399999999999995,
+          "direction": "NW"
+        },
+        "humidity_percent": 96,
+        "pressure": 1021
+      }
+    }
+  ],
+  "meta": {
+    "requests_left": 98,
+    "user": "ku.bren",
+    "plan": "free_plan",
+    "pages": 1,
+    "page": 1,
+    "count": 3,
+    "total": 3
+  }
+}

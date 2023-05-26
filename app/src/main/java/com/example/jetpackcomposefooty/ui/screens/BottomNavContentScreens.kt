@@ -9,12 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.jetpackcomposefooty.R
-import com.example.jetpackcomposefooty.ui.theme.JetpackComposeFootballTheme
+import com.example.jetpackcomposefooty.domain.model.Match
 
 @Composable
-fun MatchesScreen(){
+fun MatchesScreen(vm: Match) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -31,9 +31,10 @@ fun MatchesScreen(){
 //        )
 
         DateCarousel()
-        MatchCardScreen(dummyMatch)
-        MatchCardScreen(dummyMatch)
-        MatchCardScreen(dummyMatch)
+        MatchCardScreen(vm)
+        MatchCardScreen(vm)
+        MatchCardScreen(vm)
+
     }
 }
 
@@ -96,10 +97,12 @@ fun SettingsScreen(){
     }
 }
 
-@Preview
-@Composable
-fun MatchCardPreview(){
-    JetpackComposeFootballTheme(darkTheme = true) {
-        MatchesScreen()
-    }
-}
+
+
+//@Preview
+//@Composable
+//fun MatchCardPreview(){
+//    JetpackComposeFootballTheme(darkTheme = true) {
+//        MatchesScreen(vm)
+//    }
+//}

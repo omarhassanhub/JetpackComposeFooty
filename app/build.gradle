@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -18,6 +20,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        manifestPlaceholders = [API_NAME: "${properties.getProperty('API_NAME')}", API_TOKEN: "${properties.getProperty('API_TOKEN')}"]
+
     }
 
     buildTypes {
@@ -47,6 +53,33 @@ android {
 }
 
 dependencies {
+    //moshi
+    implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    //navigation
+    implementation("androidx.navigation:navigation-compose:2.5.1")
+
+    // Dagger Core
+    implementation "com.google.dagger:dagger:$hilt_version"
+    kapt "com.google.dagger:dagger-compiler:$hilt_version"
+
+    // Dagger Android
+    api "com.google.dagger:dagger-android:$hilt_version"
+    api "com.google.dagger:dagger-android-support:$hilt_version"
+    kapt "com.google.dagger:dagger-android-processor:$hilt_version"
+
+    // Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
@@ -54,12 +87,17 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation 'androidx.compose.material:material:1.2.0'
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.0.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.3.2"
+    testImplementation("org.mockito:mockito-core:2.1.0")
 
     implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
 

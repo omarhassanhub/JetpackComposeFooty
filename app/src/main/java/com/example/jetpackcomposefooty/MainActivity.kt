@@ -24,7 +24,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.jetpackcomposefooty.domain.model.Match
 import com.example.jetpackcomposefooty.ui.screens.BottomNavItem
 import com.example.jetpackcomposefooty.ui.screens.FollowingScreen
 import com.example.jetpackcomposefooty.ui.screens.LeaguesScreen
@@ -33,42 +32,34 @@ import com.example.jetpackcomposefooty.ui.screens.NewsScreen
 import com.example.jetpackcomposefooty.ui.screens.SettingsScreen
 import com.example.jetpackcomposefooty.ui.screens.TopBar
 import com.example.jetpackcomposefooty.ui.theme.JetpackComposeFootballTheme
-import com.example.jetpackcomposefooty.utils.ApiState
+import com.example.jetpackcomposefooty.utils.ApiResult
+import com.example.jetpackcomposefooty.viewmodel.FixturesMainViewModel
 import com.example.jetpackcomposefooty.viewmodel.MainViewModel
+import com.example.jetpackcomposefooty.viewmodel.TransfersMainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             JetpackComposeFootballTheme(darkTheme = true) {
-                // A surface container using the 'background' color from the theme
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colors.background
-//                ) {
-//                    Greeting("Android")
-//                }
-
-                val mainViewModel = hiltViewModel<MainViewModel>()
-                GETData(mainViewModel)
+                HomeScreenView()
             }
         }
     }
 }
 
 @Composable
-private fun HomeScreenView(vm: Match) {
+private fun HomeScreenView() {
     val navigationController = rememberNavController()
     Scaffold(
         topBar = { TopBar() },
         bottomBar = { BottomNavigation(navigationController = navigationController) },
     ) { contentPadding ->
-        NavigationGraph(navigationController = navigationController, contentPadding, vm)
+        NavigationGraph(navigationController = navigationController, contentPadding)
     }
 }
 
@@ -119,14 +110,30 @@ fun BottomNavigation(navigationController: NavController) {
 fun NavigationGraph(
     navigationController: NavHostController,
     contentPadding: PaddingValues,
-    vm: Match
 ) {
 
     NavHost(navigationController, startDestination = BottomNavItem.Matches.route) {
 
 
         composable(BottomNavItem.Matches.route) {
-            MatchesScreen(vm)
+            val mainViewModel = hiltViewModel<MainViewModel>()
+            when (val result = mainViewModel.response.value) {
+                is ApiResult.Success -> {
+                    MatchesScreen(result.data)
+                }
+
+                is ApiResult.Error -> {
+                    Text(text = "${result.message}")
+                }
+
+                ApiResult.Loading -> {
+                    CircularProgressIndicator()
+                }
+
+                ApiResult.Empty -> {
+
+                }
+            }
         }
         composable(BottomNavItem.News.route) {
             NewsScreen()
@@ -135,7 +142,24 @@ fun NavigationGraph(
             LeaguesScreen()
         }
         composable(BottomNavItem.Following.route) {
-            FollowingScreen()
+            val mainViewModel = hiltViewModel<TransfersMainViewModel>()
+            when (val result = mainViewModel.response.value) {
+                is ApiResult.Success -> {
+                    FollowingScreen(result.data)
+                }
+
+                is ApiResult.Error -> {
+                    Text(text = "${result.message}")
+                }
+
+                ApiResult.Loading -> {
+                    CircularProgressIndicator()
+                }
+
+                ApiResult.Empty -> {
+
+                }
+            }
         }
         composable(BottomNavItem.Settings.route) {
             SettingsScreen()
@@ -153,31 +177,5 @@ fun Greeting(name: String) {
 fun DefaultPreview() {
     JetpackComposeFootballTheme {
         Greeting("Android")
-    }
-}
-
-@Composable
-fun GETData(mainViewModel: MainViewModel) {
-    when (val result = mainViewModel.response.value) {
-        is ApiState.Success -> {
-//            LazyColumn {
-//                items(result.data) { response ->
-//                    EachRow(post = response)
-//                }
-//            }
-            HomeScreenView(result.data)
-        }
-
-        is ApiState.Failure -> {
-            Text(text = "${result.msg}")
-        }
-
-        ApiState.Loading -> {
-            CircularProgressIndicator()
-        }
-
-        ApiState.Empty -> {
-
-        }
     }
 }

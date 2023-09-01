@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.compose.ui.platform.LocalContext
 import com.example.jetpackcomposefooty.R
+import com.example.jetpackcomposefooty.domain.model.Fixtures
 import com.example.jetpackcomposefooty.domain.model.Match
+import com.example.jetpackcomposefooty.domain.model.Transfers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,5 +22,13 @@ constructor(private val apiService: ApiService, context: Context){
 
     fun getData(): Flow<Match> = flow {
         emit(apiService.getData(apiName, apiKey, "list"))
+    }.flowOn(Dispatchers.IO)
+
+    fun getFixturesData(): Flow<Fixtures> = flow {
+        emit(apiService.getFixturesData(apiName, apiKey, "list", "2023-09-02"))
+    }.flowOn(Dispatchers.IO)
+
+    fun getTransfersData(): Flow<Transfers> = flow {
+        emit(apiService.getTransfersData(apiName, apiKey, "transfers", "52"))
     }.flowOn(Dispatchers.IO)
 }

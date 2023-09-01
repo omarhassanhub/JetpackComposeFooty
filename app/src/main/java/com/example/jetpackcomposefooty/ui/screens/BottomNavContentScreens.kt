@@ -11,6 +11,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import com.example.jetpackcomposefooty.R
 import com.example.jetpackcomposefooty.domain.model.Match
+import com.example.jetpackcomposefooty.domain.model.Transfers
 
 @Composable
 fun MatchesScreen(vm: Match) {
@@ -74,14 +75,14 @@ fun LeaguesScreen(){
 }
 
 @Composable
-fun FollowingScreen(){
+fun FollowingScreen(data: Transfers) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.teal_200))
             .wrapContentSize(Alignment.Center)
     ){
-        MyCardList()
+        MyCardList(data)
     }
 }
 

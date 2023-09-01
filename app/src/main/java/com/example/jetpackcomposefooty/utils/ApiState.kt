@@ -1,10 +1,8 @@
 package com.example.jetpackcomposefooty.utils
 
-import com.example.jetpackcomposefooty.domain.model.Match
-
-sealed class ApiState {
-    class Success(val data: Match) : ApiState()
-    class Failure(val msg: Throwable) : ApiState()
-    object Loading:ApiState()
-    object Empty: ApiState()
+sealed class ApiResult<out T> {
+    data class Success<out T>(val data: T) : ApiResult<T>()
+    data class Error(val message: String?) : ApiResult<Nothing>()
+    object Loading : ApiResult<Nothing>()
+    object Empty : ApiResult<Nothing>()
 }

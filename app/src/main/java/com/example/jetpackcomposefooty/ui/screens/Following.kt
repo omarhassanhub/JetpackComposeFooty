@@ -26,10 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposefooty.R
+import com.example.jetpackcomposefooty.domain.model.Transfers
 import com.example.jetpackcomposefooty.ui.theme.JetpackComposeFootballTheme
 
 @Composable
-fun MyCardList() {
+fun MyCardList(data: Transfers) {
     val cardData = remember { generateCards() }
 
     LazyVerticalGrid(
@@ -58,7 +59,7 @@ fun MyCardList() {
 //            } else {
                 item(span = { GridItemSpan(1) }) {
                     FollowingCardList(
-                        image = card.image,
+                        image = data.data.arrivals.first().player.name,
                         team = card.team,
                         nextGame = card.nextGame,
                         time = card.time
@@ -154,7 +155,7 @@ private fun generateCards(): List<FollowData> {
 @Composable
 fun FollowingCardListPreview() {
     JetpackComposeFootballTheme() {
-        MyCardList()
+//        MyCardList(Transfers(()))
     }
 }
 

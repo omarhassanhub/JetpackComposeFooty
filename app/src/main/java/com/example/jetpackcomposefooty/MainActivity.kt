@@ -34,7 +34,6 @@ import com.example.jetpackcomposefooty.ui.screens.TopBar
 import com.example.jetpackcomposefooty.ui.theme.JetpackComposeFootballTheme
 import com.example.jetpackcomposefooty.utils.ApiResult
 import com.example.jetpackcomposefooty.viewmodel.FixturesMainViewModel
-import com.example.jetpackcomposefooty.viewmodel.MainViewModel
 import com.example.jetpackcomposefooty.viewmodel.TransfersMainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -116,10 +115,11 @@ fun NavigationGraph(
 
 
         composable(BottomNavItem.Matches.route) {
-            val mainViewModel = hiltViewModel<MainViewModel>()
-            when (val result = mainViewModel.response.value) {
+            val viewModel = hiltViewModel<FixturesMainViewModel>()
+            when (val result = viewModel.response.value) {
                 is ApiResult.Success -> {
-                    MatchesScreen(result.data)
+                    MatchesScreen(result.data.data)
+
                 }
 
                 is ApiResult.Error -> {
@@ -142,8 +142,8 @@ fun NavigationGraph(
             LeaguesScreen()
         }
         composable(BottomNavItem.Following.route) {
-            val mainViewModel = hiltViewModel<TransfersMainViewModel>()
-            when (val result = mainViewModel.response.value) {
+            val viewModel = hiltViewModel<TransfersMainViewModel>()
+            when (val result = viewModel.response.value) {
                 is ApiResult.Success -> {
                     FollowingScreen(result.data)
                 }
@@ -176,6 +176,6 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     JetpackComposeFootballTheme {
-        Greeting("Android")
+        HomeScreenView()
     }
 }

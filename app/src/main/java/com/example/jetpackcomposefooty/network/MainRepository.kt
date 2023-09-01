@@ -25,7 +25,7 @@ constructor(private val apiService: ApiService, context: Context){
     }.flowOn(Dispatchers.IO)
 
     fun getFixturesData(): Flow<Fixtures> = flow {
-        emit(apiService.getFixturesData(apiName, apiKey, "list", "2023-09-02"))
+        emit(apiService.getFixturesData(apiName, apiKey, "schedule", "2023-09-03"))
     }.flowOn(Dispatchers.IO)
 
     fun getTransfersData(): Flow<Transfers> = flow {

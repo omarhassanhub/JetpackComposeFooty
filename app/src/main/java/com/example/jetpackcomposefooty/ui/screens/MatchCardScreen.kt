@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposefooty.domain.model.FixturesData
 import com.example.jetpackcomposefooty.domain.model.exampleFixtures
+import com.example.jetpackcomposefooty.domain.model.exampleFixtures2
 import com.example.jetpackcomposefooty.ui.theme.JetpackComposeFootballTheme
 import com.example.jetpackcomposefooty.utils.LoadImageFromUrl
 
@@ -50,11 +51,12 @@ fun MatchCardScreen(data: FixturesData) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp),
+                    .padding(start = 30.dp, end = 30.dp, top = 10.dp),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
+                    modifier = Modifier.width(70.dp),
                     text = data.teams.home.name,
                     style = MaterialTheme.typography.subtitle1
                 )
@@ -74,6 +76,7 @@ fun MatchCardScreen(data: FixturesData) {
                     modifier = Modifier.align(alignment = CenterVertically)
                 ) {
                     Text(
+                        modifier = Modifier.width(70.dp),
                         text = data.time.time,
                         style = MaterialTheme.typography.subtitle1
                     )

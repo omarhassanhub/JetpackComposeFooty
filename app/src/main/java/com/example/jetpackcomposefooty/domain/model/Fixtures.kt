@@ -64,3 +64,28 @@ val exampleFixtures =
             "15:00:00"
         )
     )
+
+val exampleFixtures2 =
+    FixturesData(
+        league = League(
+            "https://cdn.soccersapi.com/images/soccer/teams/80/2869.png",
+            "Premier League"
+        ),
+        scores = Scores(
+            "",
+            ""
+        ),
+        teams = Teams(
+            Away(
+                "https://cdn.soccersapi.com/images/soccer/teams/80/2869.png",
+                "Arsenal"
+            ),
+            Home(
+                "https://cdn.soccersapi.com/images/soccer/teams/80/2869.png",
+                "Austria Lustenau"
+            )
+        ),
+        time = Time(
+            "15:00:00"
+        )
+    )

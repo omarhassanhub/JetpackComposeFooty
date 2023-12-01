@@ -5,15 +5,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -53,6 +59,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun HomeScreenView() {
     val navigationController = rememberNavController()
@@ -116,6 +123,7 @@ fun BottomNavigation(navigationController: NavController) {
 }
 
 @Composable
+@ExperimentalMaterialApi
 fun NavigationGraph(
     navigationController: NavHostController,
     contentPadding: PaddingValues,
@@ -124,11 +132,12 @@ fun NavigationGraph(
 
         composable(BottomNavItem.Matches.route) {
             val viewModel = hiltViewModel<FixturesMainViewModel>()
-            viewModel.getData()
+            val refreshing by viewModel.isRefreshing.collectAsState()
+            val pullRefreshState = rememberPullRefreshState(refreshing, { viewModel.getData() })
+
             when (val result = viewModel.response.value) {
                 is ApiResult.Success -> {
-                    MatchesScreen(result.data.data)
-
+                    MatchesScreen(result.data.data, refreshing, pullRefreshState)
                 }
 
                 is ApiResult.Error -> {
@@ -136,13 +145,19 @@ fun NavigationGraph(
                 }
 
                 ApiResult.Loading -> {
-                    CircularProgressIndicator()
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
 
                 ApiResult.Empty -> {
 
                 }
             }
+
         }
         composable(BottomNavItem.News.route) {
             NewsScreen()

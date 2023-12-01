@@ -7,6 +7,7 @@ import com.example.jetpackcomposefooty.R
 import com.example.jetpackcomposefooty.domain.model.Fixtures
 import com.example.jetpackcomposefooty.domain.model.Match
 import com.example.jetpackcomposefooty.domain.model.Transfers
+import com.example.jetpackcomposefooty.domain.model.exampleFixtures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -25,7 +26,9 @@ constructor(private val apiService: ApiService, context: Context){
     }.flowOn(Dispatchers.IO)
 
     fun getFixturesData(): Flow<Fixtures> = flow {
-        emit(apiService.getFixturesData(apiName, apiKey, "schedule", "2023-09-03"))
+        //free requests have finished for this month so opted for local data
+//        emit(apiService.getFixturesData(apiName, apiKey, "schedule", "2023-09-03"))
+        emit(Fixtures(listOf(exampleFixtures)))
     }.flowOn(Dispatchers.IO)
 
     fun getTransfersData(): Flow<Transfers> = flow {

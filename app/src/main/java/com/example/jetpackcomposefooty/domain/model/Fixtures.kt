@@ -53,7 +53,7 @@ val exampleFixtures =
         teams = Teams(
             Away(
                 "https://cdn.soccersapi.com/images/soccer/teams/80/2869.png",
-                "Arsenal"
+                "Nordsjaelland"
             ),
             Home(
                 "https://cdn.soccersapi.com/images/soccer/teams/80/2869.png",

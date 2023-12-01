@@ -1,20 +1,26 @@
 package com.example.jetpackcomposefooty.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposefooty.domain.model.FixturesData
 import com.example.jetpackcomposefooty.domain.model.exampleFixtures
-import com.example.jetpackcomposefooty.domain.model.exampleFixtures2
 import com.example.jetpackcomposefooty.ui.theme.JetpackComposeFootballTheme
 import com.example.jetpackcomposefooty.utils.LoadImageFromUrl
+import com.example.jetpackcomposefooty.utils.getTime
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -22,7 +28,7 @@ fun MatchCardScreen(data: FixturesData) {
     Card(
         shape = RoundedCornerShape(24.dp),
         modifier = Modifier
-            .height(150.dp)
+            .wrapContentHeight()
             .padding(10.dp),
         elevation = 0.dp
     ) {
@@ -30,7 +36,7 @@ fun MatchCardScreen(data: FixturesData) {
             Row(
                 modifier = Modifier,
                 horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = CenterVertically
             ) {
                 LoadImageFromUrl(
                     url = data.league.country_flag,
@@ -51,19 +57,35 @@ fun MatchCardScreen(data: FixturesData) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 30.dp, end = 30.dp, top = 10.dp),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(top = 10.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = CenterVertically
             ) {
+                Box(
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .size(28.dp)
+                        .clip(CircleShape)
+                        .background(color = Color.DarkGray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "FT", color = Color.Gray, fontSize = 12.sp)
+                }
+
                 Text(
-                    modifier = Modifier.width(70.dp),
+//                    modifier = Modifier.width(70.dp),
                     text = data.teams.home.name,
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.subtitle1,
+                    textAlign = TextAlign.End,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
                 )
                 LoadImageFromUrl(
                     url = data.teams.home.img,
                     modifier = Modifier
                         .size(50.dp)
+                        .align(CenterVertically)
                         .padding(16.dp)
                 )
 
@@ -75,11 +97,13 @@ fun MatchCardScreen(data: FixturesData) {
                     ),
                     modifier = Modifier.align(alignment = CenterVertically)
                 ) {
-                    Text(
-                        modifier = Modifier.width(70.dp),
-                        text = data.time.time,
-                        style = MaterialTheme.typography.subtitle1
-                    )
+                    getTime(data.time.time)?.let {
+                        Text(
+                //                        modifier = Modifier.width(70.dp),
+                            text = it,
+                            style = MaterialTheme.typography.subtitle1
+                        )
+                    }
                 }
 
                 LoadImageFromUrl(
@@ -91,7 +115,11 @@ fun MatchCardScreen(data: FixturesData) {
 
                 Text(
                     text = data.teams.away.name,
-                    style = MaterialTheme.typography.subtitle1
+                    style = MaterialTheme.typography.subtitle1,
+                    textAlign = TextAlign.Start,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
                 )
             }
         }

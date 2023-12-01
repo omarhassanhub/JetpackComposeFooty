@@ -21,11 +21,16 @@ class FixturesMainViewModel
 ) : ViewModel() {
     val response: MutableState<ApiResult<Fixtures>> = mutableStateOf(ApiResult.Empty)
 
-    init {
-        getData()
-    }
+//    init {
+//        getData()
+//    }
 
-    private fun getData() =
+    fun getData(reload: Boolean = false) {
+
+        if(response.value is ApiResult.Success && !reload){
+            return
+        }
+
         viewModelScope.launch {
             mainRepository.getFixturesData().onStart {
                 response.value = ApiResult.Loading
@@ -35,5 +40,6 @@ class FixturesMainViewModel
                 response.value = ApiResult.Success(it)
             }
         }
+    }
 }
 

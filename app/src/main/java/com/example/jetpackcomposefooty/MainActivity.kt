@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -57,8 +56,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun HomeScreenView() {
     val navigationController = rememberNavController()
+    val route = currentRoute(navController = navigationController)
     Scaffold(
-        topBar = { TopBar() },
+        topBar = { TopBar(route) },
         bottomBar = { BottomNavigation(navigationController = navigationController) },
     )
 //    { contentPadding ->
@@ -120,12 +120,11 @@ fun NavigationGraph(
     navigationController: NavHostController,
     contentPadding: PaddingValues,
 ) {
-
     NavHost(navigationController, startDestination = BottomNavItem.Matches.route) {
-
 
         composable(BottomNavItem.Matches.route) {
             val viewModel = hiltViewModel<FixturesMainViewModel>()
+            viewModel.getData()
             when (val result = viewModel.response.value) {
                 is ApiResult.Success -> {
                     MatchesScreen(result.data.data)
@@ -175,6 +174,12 @@ fun NavigationGraph(
             SettingsScreen()
         }
     }
+}
+
+@Composable
+fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }
 
 @Composable

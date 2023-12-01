@@ -18,7 +18,7 @@ class MainViewModel
 @Inject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {
-    val response: MutableState<ApiResult<Match>> = mutableStateOf(ApiResult.Empty)
+    private val response: MutableState<ApiResult<Match>> = mutableStateOf(ApiResult.Empty)
 
     init {
         getData()

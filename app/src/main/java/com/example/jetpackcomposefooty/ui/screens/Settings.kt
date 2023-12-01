@@ -31,7 +31,7 @@ fun ListRow(model: SettingsModel) {
         modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
-            .background(color = Color.Blue)
+            .background(color = Color.Black)
     ) {
         Image(
             painter = painterResource(id = model.image),
@@ -63,7 +63,7 @@ fun Settings(){
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Color.Black)
     ) {
         items(fruitsList) { model ->
             ListRow(model = model)

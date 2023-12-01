@@ -125,7 +125,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             cursorColor = Color.White,
             leadingIconColor = Color.White,
             trailingIconColor = Color.White,
-            backgroundColor = colorResource(id = R.color.teal_200),
+            backgroundColor = colorResource(id = androidx.appcompat.R.color.material_grey_900),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
@@ -176,7 +176,7 @@ fun CountryListItem(countryText: String, onItemClick: (String) -> Unit) {
     Row(
         modifier = Modifier
             .clickable(onClick = { onItemClick(countryText) })
-            .background(colorResource(id = R.color.teal_200))
+            .background(colorResource(id = R.color.black))
             .height(57.dp)
             .fillMaxWidth()
             .padding(PaddingValues(8.dp, 16.dp))
